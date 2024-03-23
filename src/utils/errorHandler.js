@@ -6,7 +6,7 @@ function errorHandler(err, req, res, next) {
     if (err instanceof BaseError) {
 
         return res
-            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .status(err.statusCode)
             .json({
                 success: false,
                 message: err.message,
