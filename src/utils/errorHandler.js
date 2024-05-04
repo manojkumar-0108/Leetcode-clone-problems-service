@@ -7,7 +7,7 @@ function errorHandler(err, req, res, next) {
 
     if (err instanceof BaseError) {
 
-        Logger.error({ message: err.message, error: err.stack });
+        Logger.error({ message: err.name, error: err.stack });
 
         return res
             .status(err.statusCode)
@@ -19,7 +19,7 @@ function errorHandler(err, req, res, next) {
             });
     }
 
-    Logger.error({ message: err.message, error: err.stack });
+    Logger.error({ message: err.name, error: err.stack });
     return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({
