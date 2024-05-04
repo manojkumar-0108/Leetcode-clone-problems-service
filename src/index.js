@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { PORT } = require('./config/server.config');
 const apiRouter = require('./routes');
-const { pingController } = require('./controllers');
+const { PingCheck } = require('./controllers');
 const errorHandler = require('./utils/errorHandler');
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get('/ping', pingController);
+app.get('/ping', PingCheck('API is live...'));
 
 
 app.use('/api', apiRouter);

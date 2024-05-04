@@ -1,10 +1,10 @@
 const express = require('express');
 
-const { problemController } = require('../../controllers');
+const { problemController, PingCheck } = require('../../controllers');
 
 const problemRouter = express.Router();
 
-problemRouter.get('/ping', problemController.pingProblemController);
+problemRouter.get('/ping', PingCheck('Problems Controller is live...'));
 
 problemRouter.get('/:id', problemController.getProblem);
 

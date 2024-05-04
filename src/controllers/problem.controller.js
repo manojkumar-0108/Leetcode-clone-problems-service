@@ -1,20 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const NotImplementedError = require('../errors/notImplemented.error');
 
-function pingProblemController(req, res, next) {
-    try {
-        return res
-            .status(StatusCodes.OK)
-            .json(
-                {
-                    message: 'Ping Check Successfull'
-                });
-    } catch (err) {
-        next(err);
-    }
-
-}
-
 function addProblem(req, res, next) {
     try {
 
@@ -70,8 +56,7 @@ module.exports = {
     getProblem,
     getProblems,
     deleteProblem,
-    updateProblem,
-    pingProblemController
+    updateProblem
 }
 
 /**
