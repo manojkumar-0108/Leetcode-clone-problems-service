@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { PORT } = require('./config/server.config');
+const { serverConfig } = require('./config/');
 const apiRouter = require('./routes');
 const { PingCheck } = require('./controllers');
 const errorHandler = require('./utils/errorHandler');
+
+const { PORT } = serverConfig;
+
 
 const app = express();
 
