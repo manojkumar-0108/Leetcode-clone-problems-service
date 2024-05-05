@@ -19,7 +19,7 @@ function errorHandler(err, req, res, next) {
             });
     }
 
-    Logger.error({ message: err.name, error: err.stack });
+    Logger.error({ message: 'Something went wrong...', error: err.stack });
     return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({

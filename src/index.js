@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { serverConfig } = require('./config/');
+const { serverConfig, dbConfig } = require('./config/');
 const apiRouter = require('./routes');
 const { PingCheck } = require('./controllers');
 const errorHandler = require('./utils/errorHandler');
@@ -23,6 +23,9 @@ app.use('/api', apiRouter);
 //last middle ware to handle errors
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-    console.log(`Server started PORT --> ${PORT}`)
+app.listen(PORT, async () => {
+    console.log(`Server started PORT --> ${PORT}`);
+
+    await dbConfig.connectToDB();
+    console.log('Successfully connected to db');
 })
