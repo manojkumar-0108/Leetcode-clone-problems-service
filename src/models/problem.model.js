@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const { Schema, model } = mongoose;
 
 const { Enums } = require('../utils/common');
 const { EASY, MEDIUM, HARD } = Enums.PROBLEMS_DIFFICULTY;
 
-const problemSchema = new Schema({
+const problemSchema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, 'Title of the problem cannot be empty.']
@@ -37,7 +36,7 @@ const problemSchema = new Schema({
 });
 
 
-const Problem = model('Problem', problemSchema);
+const Problem = mongoose.model('Problem', problemSchema);
 
 module.exports = Problem;
 

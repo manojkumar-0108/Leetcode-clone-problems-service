@@ -36,10 +36,18 @@ async function addProblem(req, res, next) {
     }
 }
 
-function getProblem(req, res, next) {
+async function getProblem(req, res, next) {
     try {
 
-        throw new NotImplementedError("getProblem");
+        const problem = await problemService.getProblem(req.params.id);
+
+        SuccessResponse.data = problem;
+        SuccessResponse.message = "Successfully fetched the problem";
+        SuccessResponse.statusCode = StatusCodes.OK;
+
+        return res
+            .status(SuccessResponse.statusCode)
+            .json(SuccessResponse);
 
     } catch (error) {
         next(error);
