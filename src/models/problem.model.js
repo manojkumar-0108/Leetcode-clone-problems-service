@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
+const { Enums } = require('../utils/common');
+const { EASY, MEDIUM, HARD } = Enums.PROBLEMS_DIFFICULTY;
+
 const problemSchema = new Schema({
     title: {
         type: String,
@@ -12,8 +15,8 @@ const problemSchema = new Schema({
     },
     difficulty: {
         type: String,
-        enum: ['easy', 'medium', 'hard'],
-        default: 'easy',
+        enum: [EASY, MEDIUM, HARD],
+        default: EASY,
         required: [true, 'Difficulty of the problem cannot be empty.']
     },
     testCases: [

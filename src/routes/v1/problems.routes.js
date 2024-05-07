@@ -1,6 +1,7 @@
 const express = require('express');
 
 const { problemController, PingCheck } = require('../../controllers');
+const { problemMiddleware } = require('../../middlewares');
 
 const problemRouter = express.Router();
 
@@ -10,7 +11,10 @@ problemRouter.get('/:id', problemController.getProblem);
 
 problemRouter.get('/', problemController.getProblems);
 
-problemRouter.post('/', problemController.addProblem);
+problemRouter.post('/',
+    problemMiddleware.validateCreateProblem,
+    problemController.addProblem
+);
 
 problemRouter.delete('/:id', problemController.deleteProblem);
 

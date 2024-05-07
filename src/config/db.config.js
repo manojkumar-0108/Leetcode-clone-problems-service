@@ -10,7 +10,7 @@ async function connectToDB() {
         } else if (NODE_ENV == 'production') {
         }
     } catch (error) {
-        logger.error({ message: 'Unable to connect to the DB server!', error: err.stack });
+        logger.error({ message: 'Unable to connect to the DB server!', error: error });
         console.log('Unable to connect to the DB server!');
     }
 }
