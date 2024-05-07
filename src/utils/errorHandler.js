@@ -15,18 +15,18 @@ function errorHandler(err, req, res, next) {
                 success: false,
                 message: err.message,
                 error: err.details,
-                data: {}// because this is an exception so no data is going tobe provided
+                data: {}
             });
     }
 
-    Logger.error({ message: 'Something went wrong...', error: err.stack });
+    Logger.error({ message: 'Something went wrong...', error: err });
     return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({
             success: false,
             message: "Something went wrong!!",
             error: err,
-            data: {}// because this is an exception so no data is going tobe provided
+            data: {}
         });
 }
 

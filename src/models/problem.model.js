@@ -16,7 +16,7 @@ const problemSchema = new Schema({
         default: 'easy',
         required: [true, 'Difficulty of the problem cannot be empty.']
     },
-    testcases: [
+    testCases: [
         {
             input: {
                 type: String,
