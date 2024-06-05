@@ -23,12 +23,12 @@ class CrudRepository {
         return response;
     }
 
-    async destory(id) {
-        const response = await Problem.findByIdAndDelete(id);
+    async findByIdAndDelete(id) {
+        const response = await this.model.findByIdAndDelete(id);
         return response;
     }
 
-    async update(id, problemData) {
+    async findByIdAndUpdate(id, problemData) {
         const response = await this.model.findByIdAndUpdate(id, problemData);
         return response;
     }

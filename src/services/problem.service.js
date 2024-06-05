@@ -95,6 +95,71 @@ class ProblemService {
         }
 
     }
+
+    async deleteProblem(id) {
+
+        try {
+            const problem = await this.problemRepository.findByIdAndDelete(id);
+            if (!problem) {
+                throw new AppError(StatusCodes.BAD_REQUEST, 'No problem found.', ['Resource requested to delete is not present']);
+            }
+            return problem;
+
+        } catch (error) {
+
+            this.logError('Failed to delete problem', ' deleteProblem()', id, error);
+            if (error instanceof BaseError) throw error;
+
+            if (error.name == 'CastError') {
+                throw new AppError(StatusCodes.BAD_REQUEST, "Invalid object id received", ['Cannot cast the object id provided to mongodb id']);
+            }
+
+            if (error.name == 'MongooseError') {
+                throw new AppError(StatusCodes.GATEWAY_TIMEOUT, "Database is not responding!", []);
+            }
+
+            throw new InternalServerError('Unable to delete the problem');
+        }
+
+    }
+
+    async updateProblem(id, data) {
+
+        try {
+
+            if (Object.keys(data).length === 0) {
+                throw new AppError(StatusCodes.BAD_REQUEST, 'No data recieved to update problem', []);
+            }
+            let problemData = {};
+            if (data.title) problemData.title = data.title;
+            if (data.difficulty) problemData.difficulty = data.difficulty;
+            if (data.testCases) problemData.testCases = data.testCases;
+            if (data.description) problemData.description = markdownSanitizer(data.description);;
+
+            const updatedResponse = await this.problemRepository.findByIdAndUpdate(id, problemData);
+
+            if (!updatedResponse) {
+                throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update the problem', []);
+            }
+            return updatedResponse;
+        } catch (error) {
+
+            this.logError('Failed to update problem', 'updateProblem()', data, error);
+            if (error instanceof BaseError) {
+                throw error;
+            }
+
+            if (error.name == 'CastError') {
+                throw new AppError(StatusCodes.BAD_REQUEST, "Invalid object id received", ['Cannot cast the object id provided to mongodb id']);
+            }
+            if (error.name == 'MongooseError') {
+                throw new AppError(StatusCodes.GATEWAY_TIMEOUT, "Cannot add a new problem", ['Database is not responding!']);
+            }
+            throw new InternalServerError('Cannot update problem');
+        }
+
+    }
+
 }
 
 
