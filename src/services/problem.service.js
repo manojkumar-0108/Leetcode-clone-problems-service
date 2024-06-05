@@ -13,7 +13,10 @@ class ProblemService {
     }
 
     logError(message, functionName, data, error) {
-        logger.error(`${message}\n [FUNC]: [${functionName} function]\n [DATA]: ${data}\n [ERROR]: ${error}`);
+        logger.error({
+            message: ` [MSG]: ${message}\n [FUNC]: [${functionName} function]\n [DATA]: ${JSON.stringify(data)}`,
+            error: error.stack
+        });
     }
 
     async createProblem(problemData) {

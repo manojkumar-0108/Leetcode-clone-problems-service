@@ -2,10 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const BaseError = require("../errors/base.error");
 const { logger } = require('../config');
 
-
 function errorHandler(err, req, res, next) {
-
-    logger.error({ message: 'Something went wrong', error: err });
 
     if (err instanceof BaseError) {
         return res
@@ -18,6 +15,7 @@ function errorHandler(err, req, res, next) {
             });
     }
 
+    logger.error({ message: 'Something went wrong...', error: err });
     return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({

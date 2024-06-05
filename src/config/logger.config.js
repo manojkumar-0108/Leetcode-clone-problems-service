@@ -1,19 +1,33 @@
-const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, label, printf } = format;
+const winston = require('winston');
+require('winston-mongodb');
+const { LOG_DB_URL } = require('./server.config');
 
-const customFormat = printf(({ timestamp, level, message, error }) => {
-    return `\n ${timestamp} : ${level} : ${message} \n [ ${error} ]`;
-});
+const allowedTransports = [];
 
-const logger = createLogger({
-    format: combine(
-        timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-        customFormat
+allowedTransports.push(new winston.transports.Console({
+}));
+
+allowedTransports.push(new winston.transports.MongoDB({
+    level: 'error',
+    db: LOG_DB_URL,
+    collection: 'logs'
+}))
+
+allowedTransports.push(new winston.transports.File({
+    filename: `combined.log`
+}));
+
+const logger = winston.createLogger({
+    format: winston.format.combine(
+        winston.format.timestamp({
+            format: 'YYYY-MM-DD HH:mm:ss'
+        }),
+        winston.format.printf(
+            (log) => `\n\n${log.timestamp} [${log.level.toUpperCase()}]: \n${log.message} \n ${log.error}`
+        )
     ),
-    transports: [
-        new transports.Console(),
-        new transports.File({ filename: "combined.log" })
-    ]
+    transports: allowedTransports
 });
 
 module.exports = logger;
+
