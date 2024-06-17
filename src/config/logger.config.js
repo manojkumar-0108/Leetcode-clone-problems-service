@@ -1,8 +1,21 @@
 const winston = require('winston');
 require('winston-mongodb');
+
 const { LOG_DB_URL } = require('./server.config');
+const { Writable } = require('stream');
+const { cosmosClient } = require('../clientapis');
 
 const allowedTransports = [];
+
+allowedTransports.push(new winston.transports.Stream({
+    stream: new Writable({
+        write(chunk, encoding, callback) {
+            const message = chunk.toString();
+            cosmosClient.logToCosmosDB("error", message);
+            callback();
+        }
+    })
+}));
 
 allowedTransports.push(new winston.transports.Console({
 }));
